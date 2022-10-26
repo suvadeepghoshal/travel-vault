@@ -25,3 +25,7 @@ Also checkout these awesome tutorials on `create-t3-app`.
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://beta.create.t3.gg/en/deployment/vercel) and [Docker](https://beta.create.t3.gg/en/deployment/docker) for more information.
+
+### Reference
+
+- [Figma](<https://www.figma.com/file/2D9OpyuJilzZ1ll2rgjpN8/Travel-Journal-(Copy)?node-id=0%3A1>)
