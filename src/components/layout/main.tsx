@@ -1,15 +1,17 @@
-import { Route } from 'next/dist/server/router';
+// import { Route } from 'next/dist/server/router';
 import Head from 'next/head';
+import { NextRouter } from 'next/router';
 import React from 'react';
 import { Footer } from '../footer/footer';
+import { Navbar } from '../navbar/navbar';
 
-export const Main = ({
+export function Main({
   children,
   router
 }: {
   children: React.ReactNode;
-  router: Route;
-}) => {
+  router: NextRouter;
+}): JSX.Element {
   return (
     <>
       <Head>
@@ -56,11 +58,11 @@ export const Main = ({
         />
         <title>Travel Vault | Suvadeep Ghoshal</title>
       </Head>
-      {/* <Navbar path={router.asPath} /> */}
+      <Navbar path={router.asPath} />
       <div>
         {children}
         <Footer />
       </div>
     </>
   );
-};
+}

@@ -1,4 +1,4 @@
-export const Footer = () => {
+export function Footer(): JSX.Element {
   return (
     <div>
       <p>
@@ -6,4 +6,4 @@ export const Footer = () => {
       </p>
     </div>
   );
-};
+}

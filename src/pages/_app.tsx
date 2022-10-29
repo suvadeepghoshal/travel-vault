@@ -2,7 +2,7 @@ import type { AppType } from 'next/dist/shared/lib/utils';
 import { Main } from '../components/layout/main';
 import '../styles/globals.css';
 
-const MyApp: AppType = ({ Component, pageProps, router }) => {
+const MyApp: AppType = function ({ Component, pageProps, router }) {
   return (
     <Main router={router}>
       <Component
