@@ -1,0 +1,66 @@
+import { Route } from 'next/dist/server/router';
+import Head from 'next/head';
+import React from 'react';
+import { Footer } from '../footer/footer';
+
+export const Main = ({
+  children,
+  router
+}: {
+  children: React.ReactNode;
+  router: Route;
+}) => {
+  return (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
+        <meta
+          name="description"
+          content="Travel Vault | Suvadeep Ghoshal"
+        />
+        <meta
+          name="author"
+          content="Suvadeep Ghoshal"
+        />
+        <meta
+          name="author"
+          content="iamsg"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="apple-touch-icon.png"
+        />
+        <link
+          rel="shortcut icon"
+          href="/favicon.ico"
+          type="image/x-icon"
+        />
+        <meta
+          name="twitter:card"
+          content="summary_large_image"
+        />
+        <meta
+          property="og:site_name"
+          content="Travel Vault"
+        />
+        <meta
+          name="og:title"
+          content="Travel Vault"
+        />
+        <meta
+          property="og:type"
+          content="website"
+        />
+        <title>Travel Vault | Suvadeep Ghoshal</title>
+      </Head>
+      {/* <Navbar path={router.asPath} /> */}
+      <div>
+        {children}
+        <Footer />
+      </div>
+    </>
+  );
+};
