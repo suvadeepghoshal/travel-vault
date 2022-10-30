@@ -58,7 +58,10 @@ export function Main({
         />
         <title>Travel Vault | Suvadeep Ghoshal</title>
       </Head>
-      <Navbar path={router.asPath} />
+      <Navbar
+        path={router.asPath}
+        transparent={false}
+      />
       <div>
         {children}
         <Footer />
