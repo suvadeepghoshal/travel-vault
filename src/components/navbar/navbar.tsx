@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 
 const navItems = [
-  { id: 1, title: 'Travel Vault', href: '/', logo: true },
+  { id: 1, title: 'TRAVEL VAULT', href: '/', logo: true },
   {
     id: 2,
     title: 'View Source',
