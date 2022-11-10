@@ -1,0 +1,6 @@
+- [ ] Make the body container
+- [ ] Design the data objects
+- [ ] Do prisma integration for the data set-up
+- [ ] Feed data into the prisma from the web-site
+- [ ] Display the data given in the prisma
+- [ ] Wrtie tests
