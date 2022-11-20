@@ -3,7 +3,7 @@ import { FooterLink } from './footerLink';
 export function Footer(): JSX.Element {
   return (
     <footer className="relative bg-gray-300 pt-8 pb-6">
-      {/* <div
+      <div
         className="pointer-events-none absolute bottom-auto top-0 left-0 right-0 -mt-20 w-full overflow-hidden"
         style={{ height: '80px' }}
       >
@@ -21,7 +21,7 @@ export function Footer(): JSX.Element {
             points="2560 0 2560 100 0 100"
           ></polygon>
         </svg>
-      </div> */}
+      </div>
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap">
           <div className="w-full px-4 lg:w-6/12">
