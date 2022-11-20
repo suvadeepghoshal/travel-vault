@@ -1,9 +1,9 @@
-- [ ] Make the body container
+- [x] Make the body container
 - [ ] Design the data objects
 - [ ] Do prisma integration for the data set-up
   - (Read)[https://daily.dev/blog/nextjs-with-prisma#strongsetup-postgres-in-your-machinestrong]
   - (Prisma)[https://www.prisma.io/docs/concepts/components/prisma-schema]
-  - [X] DB connection
+  - [x] DB connection
 - [ ] Feed data into the prisma from the web-site
 - [ ] Display the data given in the prisma
 - [ ] Wrtie tests
