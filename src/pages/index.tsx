@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { v4 as uuid } from 'uuid';
 import { Banner } from '../components/banner/banner';
+import { FloatSection } from '../components/float/floatSection';
 
 const Home: NextPage = function () {
   const bannerData: {
@@ -18,59 +19,59 @@ const Home: NextPage = function () {
     showSeparator: true
   };
 
+  let initialCount = 0;
+
+  const floatingCardData: {
+    count?: number;
+    randomId?: string;
+    title?: string;
+    content?: string;
+    icon?: string;
+    iconBg?: string;
+    standout?: boolean;
+  }[] = [
+    {
+      count: initialCount++,
+      randomId: uuid(),
+      title: 'Awarded Agency',
+      content:
+        'Divide details about your product or agency work into parts. A paragraph describing a feature will be enough.',
+      icon: '',
+      iconBg: 'bg-red-400',
+      standout: false
+    },
+    {
+      count: initialCount++,
+      randomId: uuid(),
+      title: 'Free Revisions',
+      content:
+        'Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious.',
+      icon: '',
+      iconBg: 'bg-blue-400',
+      standout: true
+    },
+    {
+      count: initialCount++,
+      randomId: uuid(),
+      title: 'Verified Company',
+      content:
+        'Write a few lines about each one. A paragraph describing a feature will be enough. Keep you user engaged!',
+      icon: '',
+      iconBg: 'bg-green-400',
+      standout: false
+    }
+  ];
+
   return (
     <>
       <main>
         <Banner {...bannerData} />
         <section className="-mt-24 bg-gray-300 pb-20">
           <div className="container mx-auto px-4">
-            <div className="flex flex-wrap">
-              <div className="w-full px-4 pt-6 text-center md:w-4/12 lg:pt-12">
-                <div className="relative mb-8 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-lg">
-                  <div className="flex-auto px-4 py-5">
-                    <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-400 p-3 text-center text-white shadow-lg">
-                      <i className="fas fa-award"></i>
-                    </div>
-                    <h6 className="text-xl font-semibold">Awarded Agency</h6>
-                    <p className="mt-2 mb-4 text-gray-600">
-                      Divide details about your product or agency work into
-                      parts. A paragraph describing a feature will be enough.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full px-4 text-center md:w-4/12">
-                <div className="relative mb-8 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-lg">
-                  <div className="flex-auto px-4 py-5">
-                    <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-400 p-3 text-center text-white shadow-lg">
-                      <i className="fas fa-retweet"></i>
-                    </div>
-                    <h6 className="text-xl font-semibold">Free Revisions</h6>
-                    <p className="mt-2 mb-4 text-gray-600">
-                      Keep you user engaged by providing meaningful information.
-                      Remember that by this time, the user is curious.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full px-4 pt-6 text-center md:w-4/12">
-                <div className="relative mb-8 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-lg">
-                  <div className="flex-auto px-4 py-5">
-                    <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-400 p-3 text-center text-white shadow-lg">
-                      <i className="fas fa-fingerprint"></i>
-                    </div>
-                    <h6 className="text-xl font-semibold">Verified Company</h6>
-                    <p className="mt-2 mb-4 text-gray-600">
-                      Write a few lines about each one. A paragraph describing a
-                      feature will be enough. Keep you user engaged!
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <FloatSection
+              show={true}
+              floatingCardData={floatingCardData}
+            />
             <div className="mt-32 flex flex-wrap items-center">
               <div className="mr-auto ml-auto w-full px-4 md:w-5/12">
                 <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 p-3 text-center text-gray-600 shadow-lg">
