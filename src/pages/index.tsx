@@ -36,7 +36,7 @@ const Home: NextPage = function () {
       title: 'Awarded Agency',
       content:
         'Divide details about your product or agency work into parts. A paragraph describing a feature will be enough.',
-      icon: '',
+      icon: 'fa-award',
       iconBg: 'bg-red-400',
       standout: false
     },
@@ -46,7 +46,7 @@ const Home: NextPage = function () {
       title: 'Free Revisions',
       content:
         'Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious.',
-      icon: '',
+      icon: 'fa-earth-americas',
       iconBg: 'bg-blue-400',
       standout: true
     },
@@ -56,7 +56,7 @@ const Home: NextPage = function () {
       title: 'Verified Company',
       content:
         'Write a few lines about each one. A paragraph describing a feature will be enough. Keep you user engaged!',
-      icon: '',
+      icon: 'fa-compass',
       iconBg: 'bg-green-400',
       standout: false
     }
