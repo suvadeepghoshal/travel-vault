@@ -8,7 +8,6 @@ import {
 export const FloatingCard = (
   {
     count,
-    randomId,
     title,
     content,
     icon,
@@ -16,7 +15,6 @@ export const FloatingCard = (
     standout
   }: {
     count?: number;
-    randomId?: string;
     title?: string;
     content?: string;
     icon?: string;
