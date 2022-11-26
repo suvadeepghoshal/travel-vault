@@ -40,7 +40,6 @@ export const FloatingCard = (
         <div className="flex-auto px-4 py-5">
           <div className={iconBgClassName}>
             <i className={iconClass}></i>
-            {/* <i className="fa-earth-americas"></i> */}
           </div>
           <h6 className="text-xl font-semibold">{title}</h6>
           <p className="mt-2 mb-4 text-gray-600">{content}</p>
