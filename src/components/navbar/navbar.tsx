@@ -41,7 +41,7 @@ export function Navbar({
           return (
             <div
               key={id}
-              className="relative flex w-full justify-between lg:static lg:block lg:w-auto lg:justify-start"
+              className="relative flex justify-between lg:static lg:block lg:w-auto lg:justify-start"
             >
               {logo ? (
                 <NavItem
@@ -55,10 +55,10 @@ export function Navbar({
               ) : (
                 <button
                   className={
-                    (transparent
+                    transparent
                       ? 'bg-white text-gray-800 active:bg-gray-100'
-                      : 'bg-green-500 text-white active:bg-green-600') +
-                    ' ml-3 mb-3 rounded px-4 py-2 text-xs font-bold uppercase shadow outline-none hover:shadow-md focus:outline-none lg:mr-1 lg:mb-0'
+                      : 'bg-green-500 text-white active:bg-green-600' +
+                        'rounded px-4 py-2 text-xs font-bold uppercase shadow outline-none hover:shadow-md focus:outline-none lg:mr-1 lg:mb-0'
                   }
                   type="button"
                   style={{ transition: 'all .15s ease' }}

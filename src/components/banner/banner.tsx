@@ -35,7 +35,7 @@ export const Banner = ({
       <div className="container relative mx-auto">
         <div className="flex flex-wrap items-center">
           <div className="ml-auto mr-auto w-full px-4 text-center lg:w-6/12">
-            <div className="pr-12">
+            <div>
               <h1 className="marhey text-5xl text-white">{title}</h1>
               <p className="marhey mt-4 text-lg text-gray-300">{subHeading}</p>
             </div>
