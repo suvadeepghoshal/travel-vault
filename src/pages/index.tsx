@@ -63,6 +63,74 @@ const Home: NextPage = function () {
     }
   ];
 
+  type Paragraph = {
+    pid: string;
+    pContent: string;
+  };
+
+  type Left = {
+    title: string;
+    paragraphs?: Paragraph[];
+    href: {
+      title: string;
+      link: string;
+    };
+  };
+
+  type Right = {
+    imageUrl: string;
+    imageTitle?: string;
+    imageAlt?: string;
+    imageAbout?: string;
+    imageContainerColor: string;
+  };
+
+  type Travel = {
+    randomId: string;
+    left: Left;
+    right: Right;
+  };
+
+  type TravelData = {
+    travel: Travel[];
+  };
+
+  const travelData: TravelData = {
+    travel: [
+      {
+        randomId: uuid(),
+        left: {
+          title: 'Working with us is a pleasure',
+          paragraphs: [
+            {
+              pid: uuid(),
+              pContent:
+                'Don&apos;t let your uses guess by attaching tooltips and popoves to any element. Just make sure you enable them first via JavaScript.'
+            },
+            {
+              pid: uuid(),
+              pContent:
+                'The kit comes with three pre-built pages to help you get started faster. You can change the text and images and you&apos;re good to go. Just make sure you enable them first via JavaScript.'
+            }
+          ],
+          href: {
+            title: 'Check Tailwind Starter Kit!',
+            link: 'https://www.creative-tim.com/learning-lab/tailwind-starter-kit#/presentation'
+          }
+        },
+        right: {
+          imageUrl:
+            'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
+          imageTitle: 'Top Notch Services',
+          imageAlt: 'Top Notch Services',
+          imageAbout:
+            'The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens.',
+          imageContainerColor: 'green-600'
+        }
+      }
+    ]
+  };
+
   return (
     <>
       <main>
