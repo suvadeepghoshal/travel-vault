@@ -25,6 +25,7 @@ type Right = {
 
 type Travel = {
   randomId: string;
+  order: string;
   left: Left;
   right: Right;
 };
@@ -42,8 +43,17 @@ export const TravelSection = ({
             key={data?.randomId}
             className="mt-32 flex flex-wrap items-center"
           >
-            <TravelContent {...data?.left} />
-            <TravelImageCard {...data?.right} />
+            {data.order === 'imageLeft' ? (
+              <>
+                <TravelImageCard {...data?.right} />
+                <TravelContent {...data?.left} />
+              </>
+            ) : (
+              <>
+                <TravelContent {...data?.left} />
+                <TravelImageCard {...data?.right} />
+              </>
+            )}
           </div>
         );
       })}
