@@ -141,7 +141,7 @@ const Home: NextPage = function () {
               show={true}
               floatingCardData={floatingCardData}
             />
-            <TravelSection />
+            <TravelSection {...travelData} />
           </div>
         </section>
       </main>

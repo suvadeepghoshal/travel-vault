@@ -1,4 +1,9 @@
-export const TravelImageCardSeparator = (): JSX.Element => {
+export const TravelImageCardSeparator = ({
+  color
+}: {
+  color: string;
+}): JSX.Element => {
+  const polygonClassName = `fill-current text-${color}`;
   return (
     <svg
       preserveAspectRatio="none"
@@ -12,7 +17,7 @@ export const TravelImageCardSeparator = (): JSX.Element => {
     >
       <polygon
         points="-30,95 583,95 583,65"
-        className="fill-current text-green-600"
+        className={polygonClassName}
       ></polygon>
     </svg>
   );

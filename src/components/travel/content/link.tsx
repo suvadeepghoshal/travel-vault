@@ -1,10 +1,16 @@
-export const TravelContentLink = (): JSX.Element => {
+export const TravelContentLink = ({
+  title,
+  link
+}: {
+  title: string;
+  link: string;
+}): JSX.Element => {
   return (
     <a
-      href="https://www.creative-tim.com/learning-lab/tailwind-starter-kit#/presentation"
+      href={link}
       className="mt-8 font-bold text-gray-800"
     >
-      Check Tailwind Starter Kit!
+      {title}
     </a>
   );
 };
