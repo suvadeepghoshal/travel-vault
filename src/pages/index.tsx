@@ -127,7 +127,7 @@ const Home: NextPage = function () {
           imageAlt: 'Top Notch Services',
           imageAbout:
             'The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens.',
-          imageContainerColor: 'green-600'
+          imageContainerColor: 'bg-red-600'
         }
       },
       {
@@ -159,7 +159,7 @@ const Home: NextPage = function () {
           imageAlt: 'Top Notch Services',
           imageAbout:
             'The Arctic Ocean freezes every winter and much of the sea-ice then thaws every summer, and that process will continue whatever happens.',
-          imageContainerColor: 'green-600'
+          imageContainerColor: 'bg-blue-600'
         }
       }
     ]

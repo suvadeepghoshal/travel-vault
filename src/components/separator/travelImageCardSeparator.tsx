@@ -3,7 +3,7 @@ export const TravelImageCardSeparator = ({
 }: {
   color: string;
 }): JSX.Element => {
-  const polygonClassName = `fill-current text-${color}`;
+  const polygonClassName = `fill-current ${color}`;
   return (
     <svg
       preserveAspectRatio="none"

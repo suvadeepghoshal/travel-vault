@@ -23,7 +23,8 @@ export const TravelImageCard = ({
     color: imageContainerColor,
     about: imageAbout
   };
-  const imageTextBlockClassName = `relative mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-${imageContainerColor} shadow-lg`;
+
+  const imageTextBlockClassName = `relative mb-6 flex w-full min-w-0 flex-col break-words rounded-lg ${imageContainerColor} shadow-lg`;
   return (
     <div className="mr-auto ml-auto w-full px-4 md:w-4/12">
       <div className={imageTextBlockClassName}>
