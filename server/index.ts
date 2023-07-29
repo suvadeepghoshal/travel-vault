@@ -1,13 +1,14 @@
 import bodyParser from 'body-parser';
-import express from 'express';
-import cors from 'cors';
+import express, { Response } from 'express';
+import cors, { CorsOptions } from 'cors';
+import { CommonResponse } from './models/commonResponse';
 
 const app = express();
 const PORT = 3000;
 
-const corsOptions = {
+const corsOptions: CorsOptions = {
   origin: 'http://localhost:4200',
-  optionSuccessStatus: 200,
+  optionsSuccessStatus: 200,
 };
 
 // Middleware
@@ -15,13 +16,14 @@ app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
 // dummy to be removed later with the init route
-app.get('/', (_req, res) => {
-  res.send({
-    app: 'Travel Vault',
+app.get('/', (_req, res): Response<CommonResponse> => {
+  return res.send({
+    id: '1',
+    date: Date(),
   });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, (): void => {
   console.log(
     `----- inside index.ts :: express app running for travel vault -----`
   );

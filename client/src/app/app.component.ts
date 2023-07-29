@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonResponse } from '../../../server/models/commonResponse';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   ngOnInit(): void {
     fetch('http://localhost:3000/')
-      .then(response => {
-        return response.json() as Promise<any>;
+      .then((response) => {
+        return response.json() as Promise<CommonResponse>;
       })
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+      .then((data: CommonResponse) => {
+        console.log(data);
+      })
+      .catch((error) => console.error(error));
   }
 }
