@@ -1,5 +1,7 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class ViewObject {
-  private _id!: string;
+  private _id: string = uuidv4();
   private _title!: string;
   private _description!: string;
   private _href!: string;
@@ -7,9 +9,6 @@ export class ViewObject {
 
   public get id(): string {
     return this._id;
-  }
-  public set id(value: string) {
-    this._id = value;
   }
   public get imgSrc(): string {
     return this._imgSrc;
