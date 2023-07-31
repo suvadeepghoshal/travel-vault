@@ -1,1 +1,25 @@
-<p>header-cmp works!</p>
+<header>
+  <nav class="bg-white w-full md:static md:text-sm">
+    <div class="custom-screen items-center mx-auto md:flex">
+      <div class="flex items-center justify-between py-3 md:py-5 md:block">
+        <a [href]="brand.href">{{ brand.title }}</a>
+        <app-hamburger-cmp></app-hamburger-cmp>
+      </div>
+      <div class="flex-1 pb-3 mt-8 md:pb-0 md:mt-0 md:block hidden">
+        <ul
+          class="text-gray-700 justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0 md:text-gray-600 md:font-medium">
+          <!-- <li class="duration-150 hover:text-gray-900">
+            <a class="block" href="/">Link1</a>
+          </li> -->
+          <li>
+            <a
+              class="py-2.5 px-4 text-center rounded-lg duration-150 block font-medium text-sm text-white bg-gray-800 hover:bg-gray-600 active:bg-gray-900 md:inline"
+              [href]="codeSource.href"
+              >{{ codeSource.title }}</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
