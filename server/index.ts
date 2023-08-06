@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import express, { Response } from 'express';
 import cors, { CorsOptions } from 'cors';
 import { CommonResponse } from './models/commonResponse';
+import { randomUUID } from 'crypto';
 
 const app = express();
 const PORT = 3000;
@@ -18,7 +19,7 @@ app.use(cors(corsOptions));
 // dummy to be removed later with the init route
 app.get('/', (_req, res): Response<CommonResponse> => {
   return res.send({
-    id: '1',
+    id: randomUUID(),
     date: Date(),
   });
 });
