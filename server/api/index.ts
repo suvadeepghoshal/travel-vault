@@ -8,7 +8,8 @@ const app: Express = express();
 const PORT: number = 3000;
 
 const corsOptions: CorsOptions = {
-  origin: 'http://localhost:4200',
+  origin:
+    'https://travel-vault-git-feature-deploy-express-app-suvadeepghoshal.vercel.app/',
   optionsSuccessStatus: 200,
 };
 
@@ -31,3 +32,4 @@ app.listen(PORT, (): void => {
     `----- inside index.ts :: express app running for travel vault -----`
   );
 });
+module.exports = app;
