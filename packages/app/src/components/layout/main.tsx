@@ -2,6 +2,7 @@ import Head from "next/head";
 import { NextRouter } from "next/router";
 import React from "react";
 import Navbar from "~/components/navbar/navbar";
+import Footer from "~/components/footer/footer";
 
 export function Main({
   children,
@@ -32,6 +33,7 @@ export function Main({
       </Head>
       <Navbar path={router.asPath} />
       <div>{children}</div>
+      <Footer />
     </>
   );
 }
