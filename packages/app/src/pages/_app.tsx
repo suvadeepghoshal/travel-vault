@@ -4,14 +4,13 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import { Main } from "~/components/layout/main";
-import { NextRouter } from "next/router";
-import { router } from "next/client";
+import { NextRouter, useRouter } from "next/router";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
-  router: NextRouter,
 }) => {
+  const router: NextRouter = useRouter();
   return (
     <SessionProvider session={session}>
       <Main router={router}>
