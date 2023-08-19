@@ -1,2 +1,2 @@
-# travel-vault
+# Travel Vault
 Travel Itinerary App
