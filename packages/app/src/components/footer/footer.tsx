@@ -19,11 +19,6 @@ const Footer = (): JSX.Element => (
       <div className="mx-auto w-full max-w-screen-xl p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link href="/" className="mb-4 flex items-center sm:mb-0">
-            <img
-              src="/Travel-Vault-logos.jpeg"
-              className="mr-3 h-8"
-              alt="Travel Vault Logo"
-            />
             <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
               Travel Vault
             </span>
