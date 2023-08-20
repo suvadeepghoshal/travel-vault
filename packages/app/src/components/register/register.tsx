@@ -13,11 +13,6 @@ const registerForm: Form = {
     type: "submit",
   },
   id: uuidv4(),
-  navSection: {
-    current: false,
-    name: "Login here",
-    href: "/signin",
-  },
   sections: [
     {
       id: uuidv4(),

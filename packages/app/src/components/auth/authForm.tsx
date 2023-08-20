@@ -73,10 +73,10 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
         Already have an account?{" "}
         <Link
-          href={formData?.navSection?.href}
+          href="/signin"
           className="font-medium text-blue-600 hover:underline dark:text-blue-500"
         >
-          {formData?.navSection?.name}
+          Login Here
         </Link>
       </p>
     </form>

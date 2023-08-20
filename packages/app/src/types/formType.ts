@@ -30,6 +30,5 @@ export interface Form {
   action: string;
   sections: Section[];
   callToAction: CallToAction;
-  navSection?: NavItem;
   styleString?: string;
 }
