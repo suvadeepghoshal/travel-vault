@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { type Form } from "~/types/formType";
 
 const get = "GET";
@@ -71,12 +72,12 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
       {/* additional nav item */}
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
         Already have an account?{" "}
-        <a
+        <Link
           href={formData?.navSection?.href}
           className="font-medium text-blue-600 hover:underline dark:text-blue-500"
         >
           {formData?.navSection?.name}
-        </a>
+        </Link>
       </p>
     </form>
   );

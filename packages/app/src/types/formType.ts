@@ -1,3 +1,4 @@
+import { Url } from "url";
 import { type NavItem } from "~/types/navItem";
 
 interface Section {

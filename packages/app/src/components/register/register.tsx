@@ -16,7 +16,7 @@ const registerForm: Form = {
   navSection: {
     current: false,
     name: "Login here",
-    href: "/login",
+    href: "/signin",
   },
   sections: [
     {

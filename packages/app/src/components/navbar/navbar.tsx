@@ -7,9 +7,10 @@ import NotificationButton from "~/components/buttons/notification/notificationBu
 import ProfileDropDown from "~/components/navbar/profileDropDown";
 import { User } from "~/types/user";
 import { NavItem } from "~/types/navItem";
+import Link from "next/link";
 
 const navigation: NavItem[] = [
-  { name: "Dashboard", href: "#", current: true },
+  { name: "Dashboard", href: "/", current: true },
   {
     name: "Source",
     href: "https://github.com/suvadeepghoshal/travel-vault",

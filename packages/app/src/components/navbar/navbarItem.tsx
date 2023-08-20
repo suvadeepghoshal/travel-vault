@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { classNames } from "~/utils/classNames";
 
 const NavBarItem = (item: { current: boolean; name: string; href: string }) => (
-  <a
+  <Link
     key={item.name}
     href={item.href}
     className={classNames(
@@ -13,6 +14,6 @@ const NavBarItem = (item: { current: boolean; name: string; href: string }) => (
     aria-current={item.current ? "page" : undefined}
   >
     {item.name}
-  </a>
+  </Link>
 );
 export default NavBarItem;
