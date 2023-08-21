@@ -1,23 +1,47 @@
 import Link from "next/link";
+import { useState } from "react";
 import { type Form } from "~/types/formType";
 
 const get = "GET";
 const post = "POST";
+
 const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
   formData,
 }: {
   formData: Form;
 }) => {
+  const [formDataObject, setFormDataObject] = useState({});
+
   const parseFormAction: (action: string) => string = (action: string) => {
     if (action === get) return get;
     else if (action === post) return post;
     else return "";
   };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const formDataObject: { [key: string]: string | File } = {};
+
+    for (let [name, value] of formData.entries()) {
+      formDataObject[name] = value instanceof File ? value : value.toString();
+    }
+
+    setFormDataObject(formDataObject);
+
+    e.currentTarget.reset();
+  };
+
+  console.log(formDataObject);
+
   return (
     <form
       className={formData?.styleString}
       action={parseFormAction(formData?.action)}
       id={formData?.id}
+      onSubmit={handleFormSubmit}
     >
       {formData?.sections.map((section) => (
         <div key={section?.id}>
