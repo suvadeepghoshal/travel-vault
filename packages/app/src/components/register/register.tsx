@@ -1,6 +1,9 @@
 import AuthForm from "~/components/auth/authForm";
 import { type Form } from "~/types/formType";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
+import { type User } from "~/types/user";
+import { Message, Type } from "~/types/message";
 
 const registerForm: Form = {
   action: "NONE",
@@ -104,6 +107,65 @@ const registerForm: Form = {
 };
 
 const Register: () => JSX.Element = () => {
+  const initialFormData: User = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+
+  const initialErrorMessage: Message = {
+    code: 0,
+    message: "",
+    type: Type.ERROR,
+  };
+
+  const initialSuccessMessage: Message = {
+    code: 0,
+    message: "",
+    type: Type.SUCCESS,
+  };
+
+  const [formDataObject, setFormDataObject] = useState<User>(initialFormData);
+  const [errorMessage, setErrorMessage] =
+    useState<Message>(initialErrorMessage);
+  const [successMessage, setSuccessMessage] = useState(initialSuccessMessage);
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (formDataObject?.password !== formDataObject?.confirmPassword) {
+      setErrorMessage({
+        code: 10001,
+        message: "Password and confirm password does not match!",
+        type: Type.ERROR,
+      });
+      return;
+    }
+
+    setFormDataObject(initialFormData);
+    setErrorMessage(initialErrorMessage);
+    setSuccessMessage({
+      code: 20001,
+      message: "User is successfully registered!",
+      type: Type.SUCCESS,
+    });
+
+    // TODO: need to redirect user back to dashboard once backend is ready for creating user
+    setTimeout(() => {
+      setSuccessMessage(initialSuccessMessage);
+    }, 1500);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormDataObject((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 md:h-screen lg:py-0">
       <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
@@ -111,7 +173,14 @@ const Register: () => JSX.Element = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
             Create an account
           </h1>
-          <AuthForm formData={registerForm} />
+          <AuthForm
+            formData={registerForm}
+            formDataObject={formDataObject}
+            error={errorMessage}
+            success={successMessage}
+            handleFormSubmit={handleFormSubmit}
+            handleInputChange={handleInputChange}
+          />
         </div>
       </div>
     </div>

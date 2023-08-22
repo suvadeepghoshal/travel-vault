@@ -1,51 +1,50 @@
 import Link from "next/link";
-import { useState } from "react";
 import { type Form } from "~/types/formType";
-import { User } from "~/types/user";
+import { Type, type Message } from "~/types/message";
+import { type User } from "~/types/user";
 
 const get = "GET";
 const post = "POST";
 
-const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
+const AuthForm: ({
   formData,
+  formDataObject,
+  error,
+  success,
+  handleFormSubmit,
+  handleInputChange,
 }: {
   formData: Form;
+  formDataObject: User;
+  error: Message;
+  success: Message;
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) => JSX.Element = ({
+  formData,
+  formDataObject,
+  error,
+  success,
+  handleFormSubmit,
+  handleInputChange,
+}: {
+  formData: Form;
+  formDataObject: User;
+  error: Message;
+  success: Message;
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
-  const initialFormData: User = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  };
-  const [formDataObject, setFormDataObject] = useState<User>(initialFormData);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [register, setRegister] = useState<boolean>(false);
-
   const parseFormAction: (action: string) => string = (action: string) => {
     if (action === get) return get;
     else if (action === post) return post;
     else return "";
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (formDataObject?.password !== formDataObject?.confirmPassword) {
-      setErrorMessage("Password and confirm password does not match!");
-      return;
-    }
-    setFormDataObject(initialFormData);
-    setErrorMessage("");
-    setRegister(true);
-  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => handleFormSubmit(e);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormDataObject((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    handleInputChange(e);
 
   const getCurrentValue = <K extends keyof User>(currentLabel: K) =>
     formDataObject[currentLabel];
@@ -55,7 +54,7 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
       className={formData?.styleString}
       action={parseFormAction(formData?.action)}
       id={formData?.id}
-      onSubmit={handleFormSubmit}
+      onSubmit={onSubmit}
     >
       {formData?.sections.map((section) => (
         <div key={section?.id}>
@@ -72,7 +71,7 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
             value={getCurrentValue(section?.label as keyof User)}
             className={section?.styleString?.inputStyle}
             placeholder={section?.placeholder?.text}
-            onChange={handleInputChange}
+            onChange={onInputChange}
             required
           />
         </div>
@@ -102,14 +101,20 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
       {/*    </label>*/}
       {/*  </div>*/}
       {/*</div>*/}
-      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-      {register && (
+      {error && error.type === Type.ERROR && error?.message.length ? (
+        <p className="text-red-500">{error?.message}</p>
+      ) : (
+        ""
+      )}
+      {success && success.type === Type.SUCCESS && success?.message.length ? (
         <div
           className="mb-4 rounded-lg  bg-green-400 p-4 text-sm text-gray-900"
           role="alert"
         >
-          <span className="font-medium">User is successfully registered!</span>
+          <span className="font-medium">{success?.message}</span>
         </div>
+      ) : (
+        ""
       )}
       <button
         id={formData?.callToAction?.id}
