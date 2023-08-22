@@ -1,6 +1,8 @@
+import { error } from "console";
 import Link from "next/link";
 import { useState } from "react";
 import { type Form } from "~/types/formType";
+import { User } from "~/types/user";
 
 const get = "GET";
 const post = "POST";
@@ -10,7 +12,15 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
 }: {
   formData: Form;
 }) => {
-  const [formDataObject, setFormDataObject] = useState({});
+  const initialFormData: User = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
+  const [formDataObject, setFormDataObject] = useState<User>(initialFormData);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const parseFormAction: (action: string) => string = (action: string) => {
     if (action === get) return get;
@@ -20,21 +30,24 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const formDataObject: { [key: string]: string | File } = {};
-
-    for (let [name, value] of formData.entries()) {
-      formDataObject[name] = value instanceof File ? value : value.toString();
+    if (formDataObject?.password !== formDataObject?.confirmPassword) {
+      setErrorMessage("Password and confirm password does not match!");
+      return;
     }
-
-    setFormDataObject(formDataObject);
-
-    e.currentTarget.reset();
+    setFormDataObject(initialFormData);
+    setErrorMessage("");
   };
 
-  console.log(formDataObject);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormDataObject((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const getCurrentValue = <K extends keyof User>(currentLabel: K) =>
+    formDataObject[currentLabel];
 
   return (
     <form
@@ -55,8 +68,10 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
             type={section?.type}
             name={section?.label}
             id={section?.id}
+            value={getCurrentValue(section?.label as keyof User)}
             className={section?.styleString?.inputStyle}
             placeholder={section?.placeholder?.text}
+            onChange={handleInputChange}
             required
           />
         </div>
@@ -86,6 +101,7 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
       {/*    </label>*/}
       {/*  </div>*/}
       {/*</div>*/}
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       <button
         id={formData?.callToAction?.id}
         type="submit" // TODO: take it from the form data
