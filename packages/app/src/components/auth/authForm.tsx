@@ -1,4 +1,3 @@
-import { error } from "console";
 import Link from "next/link";
 import { useState } from "react";
 import { type Form } from "~/types/formType";
@@ -21,6 +20,7 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
   };
   const [formDataObject, setFormDataObject] = useState<User>(initialFormData);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [register, setRegister] = useState<boolean>(false);
 
   const parseFormAction: (action: string) => string = (action: string) => {
     if (action === get) return get;
@@ -36,6 +36,7 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
     }
     setFormDataObject(initialFormData);
     setErrorMessage("");
+    setRegister(true);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +103,14 @@ const AuthForm: ({ formData }: { formData: Form }) => JSX.Element = ({
       {/*  </div>*/}
       {/*</div>*/}
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+      {register && (
+        <div
+          className="mb-4 rounded-lg  bg-green-400 p-4 text-sm text-gray-900"
+          role="alert"
+        >
+          <span className="font-medium">User is successfully registered!</span>
+        </div>
+      )}
       <button
         id={formData?.callToAction?.id}
         type="submit" // TODO: take it from the form data
