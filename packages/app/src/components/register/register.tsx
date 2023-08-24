@@ -3,7 +3,8 @@ import { type Form } from "~/types/formType";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { type User } from "~/types/user";
-import { Message, Type } from "~/types/message";
+import { type Message, Type } from "~/types/message";
+import { type ApiResponse } from "~/types/apiResponse";
 
 const registerForm: Form = {
   action: "NONE",
@@ -113,6 +114,7 @@ const Register: () => JSX.Element = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    profileImageUrl: "", // need to take input
   };
 
   const initialErrorMessage: Message = {
@@ -131,9 +133,12 @@ const Register: () => JSX.Element = () => {
   const [errorMessage, setErrorMessage] =
     useState<Message>(initialErrorMessage);
   const [successMessage, setSuccessMessage] = useState(initialSuccessMessage);
+  const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setRequestInProgress((prevData) => !prevData);
 
     if (formDataObject?.password !== formDataObject?.confirmPassword) {
       setErrorMessage({
@@ -141,21 +146,38 @@ const Register: () => JSX.Element = () => {
         message: "Password and confirm password does not match!",
         type: Type.ERROR,
       });
+      setRequestInProgress((prevData) => !prevData);
       return;
     }
 
-    setFormDataObject(initialFormData);
-    setErrorMessage(initialErrorMessage);
-    setSuccessMessage({
-      code: 20001,
-      message: "User is successfully registered!",
-      type: Type.SUCCESS,
+    const response = await fetch("/api/registerUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formDataObject),
     });
 
-    // TODO: need to redirect user back to dashboard once backend is ready for creating user
-    setTimeout(() => {
-      setSuccessMessage(initialSuccessMessage);
-    }, 1500);
+    debugger;
+
+    const responseData = (await response.json()) as ApiResponse;
+    const data: User = responseData?.user;
+    let error;
+    if (data === undefined) error = responseData?.error;
+
+    if (data) {
+      setFormDataObject(initialFormData);
+      setErrorMessage(initialErrorMessage);
+      setSuccessMessage({
+        code: 20001,
+        message: "User is successfully registered!",
+        type: Type.SUCCESS,
+      });
+    } else if (error && error?.type === Type.ERROR) {
+      setErrorMessage(error);
+      setFormDataObject(initialFormData);
+    }
+    setRequestInProgress((prevData) => !prevData);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -180,6 +202,7 @@ const Register: () => JSX.Element = () => {
             success={successMessage}
             handleFormSubmit={handleFormSubmit}
             handleInputChange={handleInputChange}
+            requestInProgress={requestInProgress}
           />
         </div>
       </div>

@@ -11,13 +11,15 @@
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@prisma/client": "^5.1.1",
+    "@prisma/client": "^5.2.0",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@tanstack/react-query": "^4.29.25",
     "@trpc/client": "^10.34.0",
     "@trpc/next": "^10.34.0",
     "@trpc/react-query": "^10.34.0",
     "@trpc/server": "^10.34.0",
+    "@vercel/postgres": "^0.4.1",
+    "bcrypt": "^5.1.1",
     "next": "^13.4.2",
     "next-auth": "^4.22.4",
     "react": "18.2.0",
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
+    "@types/bcrypt": "^5.0.0",
     "@types/eslint": "^8.37.0",
     "@types/node": "^18.16.0",
     "@types/prettier": "^2.7.2",
@@ -42,7 +45,7 @@
     "postcss": "^8.4.27",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.8",
-    "prisma": "^5.1.1",
+    "prisma": "^5.2.0",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.4",
     "uuid": "^9.0.0"

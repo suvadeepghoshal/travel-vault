@@ -2,6 +2,7 @@ import Link from "next/link";
 import { type Form } from "~/types/formType";
 import { Type, type Message } from "~/types/message";
 import { type User } from "~/types/user";
+import Spinner from "../buttons/pending/spinner";
 
 const get = "GET";
 const post = "POST";
@@ -13,6 +14,7 @@ const AuthForm: ({
   success,
   handleFormSubmit,
   handleInputChange,
+  requestInProgress,
 }: {
   formData: Form;
   formDataObject: User;
@@ -20,6 +22,7 @@ const AuthForm: ({
   success: Message;
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  requestInProgress: boolean;
 }) => JSX.Element = ({
   formData,
   formDataObject,
@@ -27,6 +30,7 @@ const AuthForm: ({
   success,
   handleFormSubmit,
   handleInputChange,
+  requestInProgress,
 }: {
   formData: Form;
   formDataObject: User;
@@ -34,6 +38,7 @@ const AuthForm: ({
   success: Message;
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  requestInProgress: boolean;
 }) => {
   const parseFormAction: (action: string) => string = (action: string) => {
     if (action === get) return get;
@@ -121,7 +126,7 @@ const AuthForm: ({
         type="submit" // TODO: take it from the form data
         className={formData?.callToAction?.styleString}
       >
-        {formData?.callToAction?.label}
+        {requestInProgress ? <Spinner /> : formData?.callToAction?.label}
       </button>
       {/* additional nav item */}
       <p className="text-sm font-light text-gray-500 dark:text-gray-400">
