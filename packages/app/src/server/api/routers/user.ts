@@ -18,8 +18,6 @@ export const userRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input }: { input: User }) => {
-      input.password = await HashPassword(input.password);
-
       if (
         input?.confirmPassword !== undefined &&
         input.password !== input?.confirmPassword
@@ -29,6 +27,8 @@ export const userRouter = createTRPCRouter({
           message: "Password and Confirm Password do not match!",
         });
       }
+
+      input.password = await HashPassword(input.password);
 
       const { firstName, lastName, email, password, profileImageUrl } = input;
 
