@@ -5,6 +5,7 @@ import { useState } from "react";
 import { type User } from "~/types/user";
 import { type Message, Type } from "~/types/message";
 import { type ApiResponse } from "~/types/apiResponse";
+import { api } from "~/utils/api";
 
 const registerForm: Form = {
   action: "NONE",
@@ -57,7 +58,7 @@ const registerForm: Form = {
       label: "email",
       name: "Email",
       placeholder: {
-        text: "name@company.com",
+        text: "your email",
         active: true,
       },
       required: true,
@@ -132,10 +133,14 @@ const Register: () => JSX.Element = () => {
   const [formDataObject, setFormDataObject] = useState<User>(initialFormData);
   const [errorMessage, setErrorMessage] =
     useState<Message>(initialErrorMessage);
-  const [successMessage, setSuccessMessage] = useState(initialSuccessMessage);
+  const [successMessage, setSuccessMessage] = useState<Message>(
+    initialSuccessMessage
+  );
   const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const registerMutation = api.registerUser.register.useMutation();
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setRequestInProgress((prevData) => !prevData);
@@ -150,34 +155,42 @@ const Register: () => JSX.Element = () => {
       return;
     }
 
-    const response = await fetch("/api/registerUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formDataObject),
-    });
-
-    debugger;
-
-    const responseData = (await response.json()) as ApiResponse;
-    const data: User = responseData?.user;
-    let error;
-    if (data === undefined) error = responseData?.error;
-
-    if (data) {
-      setFormDataObject(initialFormData);
-      setErrorMessage(initialErrorMessage);
-      setSuccessMessage({
-        code: 20001,
-        message: "User is successfully registered!",
-        type: Type.SUCCESS,
+    try {
+      registerMutation.mutate(formDataObject, {
+        onSuccess: (data) => {
+          if (data.user) {
+            setFormDataObject(initialFormData);
+            setErrorMessage(initialErrorMessage);
+            setSuccessMessage({
+              code: 20001,
+              message: "User is successfully registered!",
+              type: Type.SUCCESS,
+            });
+            setFormDataObject(initialFormData);
+            setRequestInProgress((prevData) => !prevData);
+          }
+        },
+        onError: (error) => {
+          setErrorMessage({
+            code: error?.shape?.code ?? 500,
+            message: error?.message || "Unknown error",
+            type: Type.ERROR,
+          });
+          setFormDataObject(initialFormData);
+          setSuccessMessage(initialSuccessMessage);
+          setRequestInProgress((prevData) => !prevData);
+        },
       });
-    } else if (error && error?.type === Type.ERROR) {
-      setErrorMessage(error);
+    } catch (error) {
+      setErrorMessage({
+        code: 10405,
+        message: "Something went wrong! Please try again.",
+        type: Type.ERROR,
+      });
       setFormDataObject(initialFormData);
+      setSuccessMessage(initialSuccessMessage);
+      setRequestInProgress((prevData) => !prevData);
     }
-    setRequestInProgress((prevData) => !prevData);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

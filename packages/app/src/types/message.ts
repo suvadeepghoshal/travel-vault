@@ -1,6 +1,6 @@
 export interface Message {
   type: Type;
-  code: number;
+  code: number | string;
   message: string;
 }
 

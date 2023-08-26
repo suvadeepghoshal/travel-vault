@@ -4,7 +4,10 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import { Main } from "~/components/layout/main";
-import { NextRouter, useRouter } from "next/router";
+import { type NextRouter, useRouter } from "next/router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient: QueryClient = new QueryClient();
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,11 +15,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   const router: NextRouter = useRouter();
   return (
-    <SessionProvider session={session}>
-      <Main router={router}>
-        <Component {...pageProps} key={router} />
-      </Main>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>
+        <Main router={router}>
+          <Component {...pageProps} key={router} />
+        </Main>
+      </SessionProvider>
+    </QueryClientProvider>
   );
 };
 

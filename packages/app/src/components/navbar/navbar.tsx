@@ -5,9 +5,7 @@ import { classNames } from "~/utils/classNames";
 import Logo from "~/components/logo/logo";
 import NotificationButton from "~/components/buttons/notification/notificationButton";
 import ProfileDropDown from "~/components/navbar/profileDropDown";
-import { User } from "~/types/user";
-import { NavItem } from "~/types/navItem";
-import Link from "next/link";
+import { type NavItem } from "~/types/navItem";
 
 const navigation: NavItem[] = [
   { name: "Dashboard", href: "/", current: true },
@@ -19,8 +17,8 @@ const navigation: NavItem[] = [
 ];
 
 const Navbar = ({ path }: { path: string }): JSX.Element => {
-  const currentUser: User = {
-    userName: "Suvadeep",
+  const currentUser = {
+    firstname: "Suvadeep",
     profileImageUrl:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   };
