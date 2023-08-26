@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { type User } from "~/types/user";
 import { type Message, Type } from "~/types/message";
-import { type ApiResponse } from "~/types/apiResponse";
 import { api } from "~/utils/api";
 
 const registerForm: Form = {
