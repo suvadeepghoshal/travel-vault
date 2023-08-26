@@ -144,16 +144,6 @@ const Register: () => JSX.Element = () => {
 
     setRequestInProgress((prevData) => !prevData);
 
-    if (formDataObject?.password !== formDataObject?.confirmPassword) {
-      setErrorMessage({
-        code: 10001,
-        message: "Password and confirm password does not match!",
-        type: Type.ERROR,
-      });
-      setRequestInProgress((prevData) => !prevData);
-      return;
-    }
-
     try {
       registerMutation.mutate(formDataObject, {
         onSuccess: (data) => {

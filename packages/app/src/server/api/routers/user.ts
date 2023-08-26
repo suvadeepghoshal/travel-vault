@@ -13,12 +13,22 @@ export const userRouter = createTRPCRouter({
         lastName: z.string(),
         email: z.string().email(),
         password: z.string(),
-        confirmPassword: z.string(),
+        confirmPassword: z.string().optional(),
         profileImageUrl: z.string(),
       })
     )
     .mutation(async ({ input }: { input: User }) => {
       input.password = await HashPassword(input.password);
+
+      if (
+        input?.confirmPassword !== undefined &&
+        input.password !== input?.confirmPassword
+      ) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Password and Confirm Password do not match!",
+        });
+      }
 
       const { firstName, lastName, email, password, profileImageUrl } = input;
 
@@ -36,7 +46,7 @@ export const userRouter = createTRPCRouter({
         return {
           user: {
             ...newUser,
-            password: undefined,
+            password: "*****",
           },
         };
       } catch (error) {
