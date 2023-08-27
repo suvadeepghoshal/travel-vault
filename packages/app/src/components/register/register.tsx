@@ -5,6 +5,7 @@ import { useState } from "react";
 import { type User } from "~/types/user";
 import { type Message, Type } from "~/types/message";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
 const registerForm: Form = {
   action: "NONE",
@@ -107,7 +108,11 @@ const registerForm: Form = {
   styleString: "space-y-4 md:space-y-6",
 };
 
-const Register: () => JSX.Element = () => {
+const Register = ({
+  currentPath,
+}: {
+  currentPath: string | undefined;
+}): JSX.Element => {
   const initialFormData: User = {
     firstName: "",
     lastName: "",
@@ -137,6 +142,8 @@ const Register: () => JSX.Element = () => {
   );
   const [requestInProgress, setRequestInProgress] = useState<boolean>(false);
 
+  const router = useRouter();
+
   const registerMutation = api.registerUser.register.useMutation();
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -157,6 +164,16 @@ const Register: () => JSX.Element = () => {
             });
             setFormDataObject(initialFormData);
             setRequestInProgress((prevData) => !prevData);
+            setTimeout(() => {
+              router
+                .push("/signin")
+                .then(() => {
+                  console.log("Redirected to login!");
+                })
+                .catch((error) => {
+                  console.error("Error redirecting:", error);
+                });
+            }, 1000);
           }
         },
         onError: (error) => {
@@ -205,6 +222,7 @@ const Register: () => JSX.Element = () => {
             handleFormSubmit={handleFormSubmit}
             handleInputChange={handleInputChange}
             requestInProgress={requestInProgress}
+            currentPath={currentPath}
           />
         </div>
       </div>

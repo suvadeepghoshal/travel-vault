@@ -28,7 +28,7 @@ export const userRouter = createTRPCRouter({
         });
       }
 
-      input.password = await HashPassword(input.password);
+      input.password = await HashPassword.encrypt(input.password);
 
       const { firstName, lastName, email, password, profileImageUrl } = input;
 

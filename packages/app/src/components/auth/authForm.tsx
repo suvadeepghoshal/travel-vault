@@ -3,11 +3,24 @@ import { type Form } from "~/types/formType";
 import { Type, type Message } from "~/types/message";
 import { type User } from "~/types/user";
 import Spinner from "../buttons/pending/spinner";
+import { type LoginRQ } from "~/types/loginRQ";
 
-const get = "GET";
-const post = "POST";
+const validActions = ["GET", "POST"];
 
-const AuthForm: ({
+type FormData = User | LoginRQ;
+
+type AuthFormProps = {
+  formData: Form;
+  formDataObject: FormData;
+  error: Message;
+  success: Message;
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  requestInProgress: boolean;
+  currentPath: string | undefined;
+};
+
+const AuthForm: React.FC<AuthFormProps> = ({
   formData,
   formDataObject,
   error,
@@ -15,44 +28,26 @@ const AuthForm: ({
   handleFormSubmit,
   handleInputChange,
   requestInProgress,
-}: {
-  formData: Form;
-  formDataObject: User;
-  error: Message;
-  success: Message;
-  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  requestInProgress: boolean;
-}) => JSX.Element = ({
-  formData,
-  formDataObject,
-  error,
-  success,
-  handleFormSubmit,
-  handleInputChange,
-  requestInProgress,
-}: {
-  formData: Form;
-  formDataObject: User;
-  error: Message;
-  success: Message;
-  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  requestInProgress: boolean;
+  currentPath,
 }) => {
-  const parseFormAction: (action: string) => string = (action: string) => {
-    if (action === get) return get;
-    else if (action === post) return post;
-    else return "";
-  };
+  const parseFormAction: (action: string) => string = (action: string) =>
+    validActions.includes(action) ? action : "";
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => handleFormSubmit(e);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     handleInputChange(e);
 
-  const getCurrentValue = <K extends keyof User>(currentLabel: K) =>
-    formDataObject[currentLabel];
+  const isKeyOfFormData = (label: string): label is keyof FormData => {
+    return label in formDataObject;
+  };
+
+  const getCurrentValue = (currentLabel: string) => {
+    if (isKeyOfFormData(currentLabel)) {
+      return formDataObject[currentLabel];
+    }
+    return undefined;
+  };
 
   return (
     <form
@@ -73,7 +68,7 @@ const AuthForm: ({
             type={section?.type}
             name={section?.label}
             id={section?.id}
-            value={getCurrentValue(section?.label as keyof User)}
+            value={getCurrentValue(section?.label)}
             className={section?.styleString?.inputStyle}
             placeholder={section?.placeholder?.text}
             onChange={onInputChange}
@@ -129,15 +124,27 @@ const AuthForm: ({
         {requestInProgress ? <Spinner /> : formData?.callToAction?.label}
       </button>
       {/* additional nav item */}
-      <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-        Already have an account?{" "}
-        <Link
-          href="/signin"
-          className="font-medium text-blue-600 hover:underline dark:text-blue-500"
-        >
-          Login Here
-        </Link>
-      </p>
+      {currentPath?.includes("signup") ? (
+        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+          Already have an account?{" "}
+          <Link
+            href="/signin"
+            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Login Here
+          </Link>
+        </p>
+      ) : (
+        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+          Want to create an account with us?{" "}
+          <Link
+            href="/signup"
+            className="font-medium text-blue-600 hover:underline dark:text-blue-500"
+          >
+            Register Here
+          </Link>
+        </p>
+      )}
     </form>
   );
 };
