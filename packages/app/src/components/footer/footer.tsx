@@ -1,4 +1,4 @@
-import { NavItem } from "~/types/navItem";
+import { type NavItem } from "~/types/navItem";
 import Link from "next/link";
 
 const navigation: NavItem[] = [
@@ -15,11 +15,11 @@ const navigation: NavItem[] = [
 ];
 const Footer = (): JSX.Element => (
   <>
-    <footer className="bg-white shadow dark:bg-gray-900">
+    <footer className="bg-gray-900 shadow">
       <div className="mx-auto w-full max-w-screen-xl p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link href="/" className="mb-4 flex items-center sm:mb-0">
-            <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+            <span className="self-center whitespace-nowrap text-2xl font-semibold text-white">
               Travel Vault
             </span>
           </Link>
