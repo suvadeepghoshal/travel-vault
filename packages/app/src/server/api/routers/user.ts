@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import HashPassword from "~/utils/hashPassword";
 import { prisma } from "~/server/db";
 import { type User } from "~/types/user";
@@ -55,5 +55,31 @@ export const userRouter = createTRPCRouter({
           message: "Error Creating User!",
         });
       }
+    }),
+  getUserByEmail: protectedProcedure
+    .input(
+      z.object({
+        email: z.string().email(),
+        password: z.string(),
+      })
+    )
+    .query(async ({ input }): Promise<User> => {
+      const { email } = input;
+      let user: User | null;
+      try {
+        user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "User is not found!",
+          });
+        }
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error Finding User!",
+        });
+      }
+      return user;
     }),
 });

@@ -6,7 +6,7 @@ const HashPassword = {
     const hashedPassword: string = await bcrypt.hash(password, saltRounds);
     return hashedPassword;
   },
-  decrypt: async (
+  isValid: async (
     plainTextPassword: string,
     hashedPassword: string
   ): Promise<boolean> => {

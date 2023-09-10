@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "types": ["bcrypt", "node"],
+    // "types": ["bcrypt", "node"],
+    "typeRoots": ["./src/types"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "checkJs": true,
