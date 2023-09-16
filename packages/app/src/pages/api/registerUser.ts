@@ -8,7 +8,7 @@ const registerUser = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const user = req.body as User;
 
-    user.password = await HashPassword(user.password);
+    user.password = await HashPassword.encrypt(user.password);
 
     const { firstName, lastName, email, password, profileImageUrl } = user;
 

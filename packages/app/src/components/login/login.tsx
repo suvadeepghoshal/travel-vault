@@ -89,19 +89,18 @@ const Login = ({
 
   const { data: session } = useSession();
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email: string = formDataObject.loginEmail;
     const password: string = formDataObject.loginPassword;
     try {
-      const result = await signIn("Credentials", {
+      signIn("Credentials", {
         username: email,
         password,
         redirect: false,
-      });
-      if (result?.ok) {
-        if (session) console.log(session);
-      }
+      })
+        .then((r) => console.log(r))
+        .catch((e) => console.error(e));
     } catch (error) {
       console.error(error);
     }
@@ -110,6 +109,16 @@ const Login = ({
   const handleDiscordButtonClick = () => {
     try {
       signIn("discord", { redirect: false })
+        .then((r) => console.log(r))
+        .catch((e) => console.error(e));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleGitHubButtonClick = () => {
+    try {
+      signIn("github", { redirect: false })
         .then((r) => console.log(r))
         .catch((e) => console.error(e));
     } catch (error) {
@@ -164,7 +173,7 @@ const Login = ({
           <button
             type="button"
             className="mb-2 mr-2 inline-flex items-center rounded-lg bg-[#24292F] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#24292F]/90 focus:outline-none focus:ring-4 focus:ring-[#24292F]/50 dark:hover:bg-[#050708]/30 dark:focus:ring-gray-500"
-            onClick={() => signIn("github", { redirect: false })}
+            onClick={handleGitHubButtonClick}
           >
             <svg
               className="mr-2 h-4 w-4"

@@ -11,6 +11,7 @@ import {undefined} from "zod";
 import {type GitHubUser} from "~/types/gitHubUser";
 import {type User} from "~/types/user";
 import {type DiscordUser} from "~/types/discordUser";
+import jwt, {type Secret} from "jsonwebtoken";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -79,10 +80,13 @@ const mapDiscordUserToPrismaUser = (discordUser: DiscordUser): User => {
   const parseUser: (data: DiscordUser) => {
     firstName: string;
     lastName: string;
-  } = (data: DiscordUser): { firstName: string; lastName: string } => {
+  } = (
+    data: DiscordUser
+  ): {
+    firstName: string;
+    lastName: string;
+  } => {
     let names: string[] = [];
-
-    console.log(discordUser);
 
     // First preference to global_name
     if (data.global_name) {
@@ -105,8 +109,13 @@ const mapDiscordUserToPrismaUser = (discordUser: DiscordUser): User => {
       lastName: names.slice(1).map(capitalizeFirstLetter).join(" ") || "",
     };
   };
-  const { firstName, lastName }: { firstName: string; lastName: string } =
-    parseUser(discordUser);
+  const {
+    firstName,
+    lastName,
+  }: {
+    firstName: string;
+    lastName: string;
+  } = parseUser(discordUser);
   return {
     firstName: firstName,
     lastName: lastName,
@@ -115,6 +124,21 @@ const mapDiscordUserToPrismaUser = (discordUser: DiscordUser): User => {
     password: randomHashedPassword,
   };
 };
+
+function getCustomAccessToken(user: User): string {
+  if (!env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined");
+  }
+
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+    },
+    env.JWT_SECRET as Secret,
+    { expiresIn: "1h" }
+  );
+}
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
@@ -155,11 +179,17 @@ export const authOptions: NextAuthOptions = {
               userId: storedUser.id,
               provider: account?.provider,
               providerAccountId: account.providerAccountId,
-              access_token: account.access_token,
+              access_token:
+                account?.provider !== "credentials"
+                  ? account.access_token
+                  : getCustomAccessToken(storedUser),
               refresh_token: account.refresh_token,
               type: account.type,
               token_type: account.token_type,
-              scope: account.scope,
+              scope:
+                account?.provider !== "credentials"
+                  ? account.scope
+                  : "read:user,user:email",
               id_token: account.id_token,
               session_state: account.session_state,
             },
@@ -167,11 +197,17 @@ export const authOptions: NextAuthOptions = {
               userId: storedUser.id!,
               provider: account?.provider,
               providerAccountId: account.providerAccountId,
-              access_token: account.access_token,
+              access_token:
+                account?.provider !== "credentials"
+                  ? account.access_token
+                  : getCustomAccessToken(storedUser),
               refresh_token: account.refresh_token,
               type: account.type,
               token_type: account.token_type,
-              scope: account.scope,
+              scope:
+                account?.provider !== "credentials"
+                  ? account.scope
+                  : "read:user,user:email",
               id_token: account.id_token,
               session_state: account.session_state,
             },
@@ -191,8 +227,8 @@ export const authOptions: NextAuthOptions = {
           transformedUser = mapGitHubUserToPrismaUser(user as GitHubUser);
         else if (account?.provider === "discord")
           transformedUser = mapDiscordUserToPrismaUser(user as DiscordUser);
-
-        console.log(transformedUser);
+        else if (account?.provider === "credentials")
+          transformedUser = user as User;
 
         const storedUser: User = await upsertUser(transformedUser);
 
@@ -200,11 +236,12 @@ export const authOptions: NextAuthOptions = {
           await upsertUserAccount(storedUser);
           return true;
         }
+
+        return true;
       } catch (error) {
         console.error("Error during sign-in", error);
         return false;
       }
-      return true;
     },
   },
   providers: [
@@ -220,18 +257,18 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         username: {
-          label: "loginEmail",
+          label: "email",
           type: "text",
           placeholder: "your email",
         },
-        password: { label: "loginPassword", type: "password" },
+        password: { label: "password", type: "password" },
       },
       async authorize(credentials, _req) {
-        if (credentials === undefined) {
+        if (!credentials) {
           throw new Error("No credentials provided");
         }
 
-        const email = credentials.username;
+        const email = credentials?.username;
         const user = await prisma.user.findUnique({
           where: { email },
         });
@@ -241,8 +278,8 @@ export const authOptions: NextAuthOptions = {
         }
 
         const isValidPassword: boolean = await HashPassword.isValid(
-          credentials.password,
-          user.password
+          credentials?.password,
+          user?.password
         );
 
         if (isValidPassword) {
