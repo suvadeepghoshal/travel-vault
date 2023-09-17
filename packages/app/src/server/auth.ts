@@ -12,6 +12,7 @@ import {type GitHubUser} from "~/types/gitHubUser";
 import {type User} from "~/types/user";
 import {type DiscordUser} from "~/types/discordUser";
 import jwt, {type Secret} from "jsonwebtoken";
+import {v4 as uuidv4} from "uuid";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -148,6 +149,8 @@ function getCustomAccessToken(user: User): string {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: ({ session, user }) => {
+      console.log(session);
+      console.log(user);
       return {
         ...session,
         user: {
@@ -189,7 +192,7 @@ export const authOptions: NextAuthOptions = {
               scope:
                 account?.provider !== "credentials"
                   ? account.scope
-                  : "read:user,user:email",
+                  : "credentials identify",
               id_token: account.id_token,
               session_state: account.session_state,
             },
@@ -207,9 +210,20 @@ export const authOptions: NextAuthOptions = {
               scope:
                 account?.provider !== "credentials"
                   ? account.scope
-                  : "read:user,user:email",
+                  : "credentials identify",
               id_token: account.id_token,
               session_state: account.session_state,
+            },
+          }));
+      };
+
+      const generateCustomSession = async (user: User, account: Account) => {
+        account &&
+          (await prisma.session.create({
+            data: {
+              sessionToken: uuidv4(),
+              userId: user.id!,
+              expires: new Date(Date.now() + 60 * 60 * 1000), // expires in one hour
             },
           }));
       };
@@ -234,6 +248,9 @@ export const authOptions: NextAuthOptions = {
 
         if (storedUser) {
           await upsertUserAccount(storedUser);
+          if (account?.provider === "credentials") {
+            await generateCustomSession(storedUser, account);
+          }
           return true;
         }
 
